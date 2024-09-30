@@ -1,10 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaPlay } from "react-icons/fa";
+import { FaCirclePause } from "react-icons/fa6";
 import { Synthesizer } from "speechreader";
 
 const App = () => {
   const [text, setText] = useState("Default Content");
   const synthesizer = new Synthesizer(text);
+  const generate = () => {
+    synthesizer.play();
+  };
+
+  useEffect(() => {
+    synthesizer.stop();
+  }, [synthesizer]);
 
   return (
     <div className="w-screen h-screen grid place-items-center">
@@ -22,15 +30,26 @@ const App = () => {
             placeholder="Enter a text to voice"
             className="text-blue-300 resize-none rounded-[5px] p-2 w-[85%] h-[150px] border border-blue-300 outline-none mt-[10px]"
           ></textarea>
-          <button
-            onClick={() => {
-              synthesizer.play();
-            }}
-            className="mt-[10px] border text-blue-300 border-blue-300 px-8 py-2 rounded-[5px] flex items-center "
-          >
-            <FaPlay className="text-sm mr-1 text-blue-300" />
-            Speak
-          </button>
+          <div className="button flex gap-3">
+            <button
+              onClick={() => {
+                generate();
+              }}
+              className="mt-[10px] border text-blue-300 border-blue-300 px-8 py-2 rounded-[5px] flex items-center "
+            >
+              <FaPlay className="text-sm mr-1 text-blue-300" />
+              Speak
+            </button>
+            <button
+              onClick={() => {
+                synthesizer.pause();
+              }}
+              className="mt-[10px] border text-blue-300 border-blue-300 px-8 py-2 rounded-[5px] flex items-center "
+            >
+              <FaCirclePause className="text-sm mr-2 text-blue-300" />
+              Pause
+            </button>
+          </div>
         </div>
       </div>
     </div>
